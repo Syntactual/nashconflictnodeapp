@@ -1,8 +1,8 @@
 <span style="color:green">{{message}}</span>
 
-<form action="fileUpload" method="post">
+<form action="fileUpload" method="post" encType="multipart/form-data">
     <label>Enter Text Message: </label>
     <textarea name="textBody" placeholder="Enter Text Here:"></textarea><br/>
-<input type=file  name="file"/>
+<input type="file"  name="uploadfile"/>
 <input type="submit" value="punch me"/>
 </form>
