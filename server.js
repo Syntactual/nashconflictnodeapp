@@ -2,11 +2,11 @@
 const Path = require('path');
 
 const Hoek = require('hoek');
-var Hapi = require('hapi');
+const Hapi = require('hapi');
 
 const handlers = require('./lib/handlers');
 
-var server = new Hapi.Server();
+let server = new Hapi.Server();
 
 server.register(require('vision'), (err) => {
 
@@ -27,29 +27,33 @@ server.start(function(){
   console.log('Listening on '+ server.info.uri);
 });
 
-server.route({
-  method: 'POST',
-  path: '/fileUpload',
-  handler: handlers.fileUpload
-});
+server.route(routes.fileUpload);
 
-server.route({
-  method: 'GET',
-  path: '/',
-  handler: {
-    view: {
-      template: 'index',
-      context: {
-        message: ""
+server.route(routes.default);
+
+server.route(routes.readFile);
+
+let routes =  {
+  readFile : {
+    method: 'GET',
+    path: '/readFile',
+    handler: handlers.readFile
+  },
+  fileUpload : {
+    method: 'POST',
+    path: '/fileUpload',
+    handler: handlers.fileUpload
+  },
+  default : {
+    method: 'GET',
+    path: '/',
+    handler: {
+      view: {
+        template: 'index',
+        context: {
+          message: ""
+        }
       }
     }
-  }
-  //handlers.default
-});
-
-server.route({
-  method: 'GET',
-  path: '/readFile',
-  handler: handlers.readFile
-});
-
+  }  
+};
